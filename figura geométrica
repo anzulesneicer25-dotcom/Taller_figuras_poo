@@ -1,0 +1,109 @@
+class FiguraGeometrica:
+    def __init__(self, ancho:float, alto:float ):
+        self.ancho = ancho
+        self.alto = alto
+
+    @property
+    def ancho(self):
+        return self._ancho
+
+    @ancho.setter
+    def ancho(self, valor):
+        if valor <= 0:
+            raise ValueError("El ancho debe ser mayor que cero.")
+        self._ancho = valor
+
+    @property
+    def alto(self):
+        return self._alto
+
+    @alto.setter
+    def alto(self, valor):
+        if valor <= 0:
+            raise ValueError("El alto debe ser mayor que cero.")
+        self._alto = valor
+
+    def area(self):
+        return self.ancho * self.alto
+
+    def perimetro(self):
+        pass
+
+    def __str__(self):
+        return f"FiguraGeometrica: ancho={self.ancho}, alto={self.alto}"
+from figura_geometrica import FiguraGeometrica
+
+class Cuadrado(FiguraGeometrica):
+    def __init__(self, lado: float):
+        self.ancho = lado
+        self.alto = lado
+        super().__init__(lado, lado)
+
+    def area(self):
+        return self.ancho ** 2
+
+    def perimetro(self):
+        return 4 * self.ancho
+
+    def __str__(self):
+        return f"Cuadrado: lado={self.ancho}"
+
+from figura_geometrica import FiguraGeometrica
+
+class Rectangulo(FiguraGeometrica):
+    def __init__(self, ancho: float, alto: float):
+        super().__init__(ancho, alto)
+
+    def area(self):
+        return self.ancho * self.alto
+
+    def perimetro(self):
+        return 2 * (self.ancho + self.alto)
+
+    def __str__(self):
+        return f"Rectángulo: ancho={self.ancho}, alto={self.alto}"
+
+from cuadrado import Cuadrado
+from rectangulo import Rectangulo
+
+def sumar_areas(figuras: list):
+    return sum(figura.area() for figura in figuras)
+
+def sumar_perimetros(figuras: list):
+    return sum(figura.perimetro() for figura in figuras)
+
+if __name__ == "__main__":
+    print("🔷 Creación de figuras válidas:")
+    cuadrado1 = Cuadrado(4)
+    cuadrado2 = Cuadrado(6)
+    rectangulo1 = Rectangulo(3, 5)
+    rectangulo2 = Rectangulo(2, 7)
+
+    figuras = [cuadrado1, cuadrado2, rectangulo1, rectangulo2]
+
+    for figura in figuras:
+        print(figura)
+        print(f"Área: {figura.area()}")
+        print(f"Perímetro: {figura.perimetro()}")
+        print("-" * 30)
+
+    print(" Intento de creación inválida:")
+
+    try:
+        cua_invalido= Cuadrado(-3)
+    except ValueError:
+            print("Ocurrió un error al crear la figura.")
+
+    print(" Modificación de valores:")
+    try:
+        cuadrado1.ancho = 10
+        cuadrado1.alto = 10
+        print(f"Nuevo {cuadrado1}")
+        print(f"Área modificada: {cuadrado1.area()}")
+        print(f"Perímetro modificado: {cuadrado1.perimetro()}")
+    except ValueError as e:
+        print(f"Error al modificar: {e}")
+
+
+    print(" Suma total de áreas:", sumar_areas(figuras))
+    print(" Suma total de perímetros:", sumar_perimetros(figuras))
